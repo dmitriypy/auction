@@ -18,12 +18,11 @@ async def bot_start(message: types.Message, state: FSMContext):
         
         await state.update_data(uid=unique_code)
 
-        #если есть id рефера
         auction_amount = db.get_balance(unique_code)
 
 
         try:
-            invoice = await api.invoice_create(currency="ton", amount=auction_amount)
+            invoice = await api.invoice_create(currency="ton", amount=auction_amount, description="Оплата ставки в @username")
             print(invoice)
             print(invoice["external_link"])
         except Exception as e:
@@ -39,7 +38,7 @@ async def bot_start(message: types.Message, state: FSMContext):
 
         cancel_payment = InlineKeyboardButton(text='◀️ Назад', 
                                               callback_data="pon")
-#◀️
+        
         start_keyboard = InlineKeyboardMarkup(row_width=1)
         
         start_keyboard.add(invoice_button, check_payment, cancel_payment)
