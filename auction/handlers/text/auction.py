@@ -4,12 +4,7 @@ from aiogram import types
 from data.xjetapi import api
 import db
 
-import uuid
-
 ADMINS = [5802478361]
-
-# (500/100)*50
-
 
 
 async def start_auction(message: types.Message, state: FSMContext):
@@ -36,7 +31,6 @@ async def got_uid(message: types.Message, state: FSMContext):
         await message.answer("Готово! Введите начальную ставку аукциона: ")
         
         await state.set_state("got_start_bid")
-        #db.add_balance(message.text)
 
     else:
         await message.reply("Не правильный айди аукциона! Попробуй ещё раз: /auction")
@@ -53,10 +47,10 @@ async def got_start_bid(message: types.Message, state: FSMContext):
 
         db.add_balance(user_data["uid"], message.text)
         
-        await message.answer(f"Готово! Ссылка аукциона: https://t.me/asudnBot?start={user_data['uid']}")
+        await message.answer(f"Готово! Ссылка аукциона: https://t.me/username?start={user_data['uid']}")
         await state.finish()
 
 
     else:
-        await message.reply("Не правильная сумма! Попробуй ещё раз: /start_auction")
+        await message.reply("Не правильная сумма! Попробуй ещё раз: /auction")
         await state.finish()
